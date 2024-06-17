@@ -19,7 +19,7 @@ export class ProductoController {
         return this.productoService.getProduct();
     }
     @Get('Listarproductos/:id')
-    getProductId(@Param('id', ParseIntPipe)id: number): Promise<Product>{
+    getProductId(@Param('id', ParseIntPipe)id: number): Promise<any>{
         return this.productoService.getProductId(id);
     }
     @Delete('eliminarproducto/:id')
