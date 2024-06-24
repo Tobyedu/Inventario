@@ -3,5 +3,6 @@ export class UpdateProductoDto {
     precio?: number;
     cantidad?: number;
     cod_barra?: string;
+    categoriaId?: number;
 }
 

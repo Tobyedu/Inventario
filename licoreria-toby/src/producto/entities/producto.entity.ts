@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import { Categoria } from "../../categoria/entities/categoria.entity";
 
 @Entity({name: 'Producto'})
 export class Product{
@@ -20,5 +21,15 @@ export class Product{
 
     @Column({type: 'date', default: () => 'CURRENT_TIMESTAMP'})
     createdAt: Date;
+    
+    @Column()
+    categoriaId: number;
+
+
+    //Relacion de muchos a uno con Categoria
+    @ManyToOne(() => Categoria, producto => producto.Categoria)
+    @JoinColumn({name: 'categoriaId'})
+    productos: Categoria;
+
 
 }

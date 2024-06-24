@@ -3,5 +3,6 @@ export class CreateProductoDto {
     precio: number;
     cantidad: number;
     cod_barra: string;
+    categoriaId: number;
 
 }

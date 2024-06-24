@@ -9,7 +9,7 @@ export class CategoriaController {
 
     }
 
-    @Post('crearCategoria')
+    @Post('crearcategoria')
     createCategoria(@Body() newCategoria: CreateCategoriaDto){
         this.categoriaService.createCategoria(newCategoria);
     }

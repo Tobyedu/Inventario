@@ -10,14 +10,15 @@ export class CategoriaService {
     constructor(@InjectRepository(Categoria) private categoriaRepository: Repository<Categoria>){}
 
     async createCategoria(categoria: CreateCategoriaDto){
-        return await this.categoriaRepository.create(categoria)
+        const newCategoria = this.categoriaRepository.create(categoria)
+        return await this.categoriaRepository.save(newCategoria);
     }
-    getCategoria(){
-        return this.categoriaRepository.find();
+    async getCategoria(){
+        return await this.categoriaRepository.find({relations: ['Categoria']});
     }
 
     async getCategoriaId(id: number){
-        return await this.categoriaRepository.findOne({where: {idcategoria: id}});
+        return await this.categoriaRepository.findOne({where: {idcategoria: id}, relations: ['Categoria']});
     }
 
     async deleteCategoriaId(id: number){
@@ -27,4 +28,10 @@ export class CategoriaService {
     async updateCategoria(id: number, categoria: UpdateCategoriaDto ){
         return await this.categoriaRepository.update(id, categoria);
     }
+
+    //RELACIONES UNO A MUCHOS 
+
+    // async getProductoCategoria(id: number){
+    //     return await this.categoriaRepository.find({where: {idcategoria: id}, relations: ['productos']});
+    // }
 }

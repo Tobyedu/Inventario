@@ -4,28 +4,28 @@ import { Product } from './entities/producto.entity';
 import { Repository } from 'typeorm';
 import { CreateProductoDto} from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
+import { CategoriaService } from 'src/categoria/categoria.service';
 
 @Injectable()
 export class ProductoService {
 
-    constructor(@InjectRepository(Product) private productRepository: Repository<Product>){}
-
+    constructor(@InjectRepository(Product) private productRepository: Repository<Product>, 
+                                           private categoriaService: CategoriaService){}
 
 
     async crearProduct(producto: CreateProductoDto){
 
-        const existnombre = await this.productRepository.find(
-            {where: {nombre: producto.nombre}}
-        );
-        if(existnombre){
-            return new HttpException('El producto ya existe', HttpStatus.CONFLICT);
+        const existCategoria = await this.categoriaService.getCategoriaId(producto.categoriaId);
+        if(!existCategoria){
+            return new HttpException('La categoria no existe', HttpStatus.CONFLICT);
         }
-        
-        const crearProducto = this.productRepository.create(producto)
-        return this.productRepository.save(crearProducto);
+
+        const newProducto = this.productRepository.create(producto)
+        return await this.productRepository.save(newProducto);
     }
+    
     async getProduct(){
-        return await this.productRepository.find();
+        return await this.productRepository.find({relations: ['productos']});
     }
 
 
